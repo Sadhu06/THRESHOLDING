@@ -63,80 +63,73 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Load Original Image
+# Step 2: Read the image and convert to grayscale
 image = cv2.imread(r"C:\Users\admin\Downloads\mypic.jpeg")
-
-# Convert to Grayscale
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-# Global Thresholding
-threshold_value = 127
-ret, thresholded_image = cv2.threshold(gray_image, threshold_value, 255, cv2.THRESH_BINARY)
+# Original Image
+plt.subplot(2, 2, 1)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))  # Convert from BGR to RGB for display
+plt.title("Original Image")
+plt.axis('off')
 
-# Display Global Thresholded Image
-plt.imshow(thresholded_image, cmap='gray')
+# Step 3: Use Global Thresholding to segment the image
+# Apply global thresholding with a threshold value of 127
+_, global_thresholded = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)
+
+# Step 4: Use Adaptive Thresholding to segment the image
+# Apply adaptive thresholding using Gaussian method
+adaptive_thresholded = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+
+# Step 5: Use Otsu's method to segment the image
+# Apply Otsu's method for optimal thresholding
+_, otsu_thresholded = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+# Global Thresholding
+plt.subplot(2, 2, 2)
+plt.imshow(global_thresholded, cmap='gray')
 plt.title("Global Thresholding")
 plt.axis('off')
-plt.show()
 
-# Adaptive Mean Thresholding
-adaptive_mean = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
-
-# Adaptive Gaussian Thresholding
-adaptive_gaussian = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-
-# Display Adaptive Thresholding Results
-plt.figure(figsize=(15, 5))
-
-plt.subplot(1, 3, 1)
-plt.imshow(gray_image, cmap='gray')
-plt.title("Original Grayscale")
+# Adaptive Thresholding
+plt.subplot(2, 2, 3)
+plt.imshow(adaptive_thresholded, cmap='gray')
+plt.title("Adaptive Thresholding")
 plt.axis('off')
 
-plt.subplot(1, 3, 2)
-plt.imshow(adaptive_mean, cmap='gray')
-plt.title("Adaptive Mean Thresholding")
+# Otsu's Method
+plt.subplot(2, 2, 4)
+plt.imshow(otsu_thresholded, cmap='gray')
+plt.title("Otsu's Method")
 plt.axis('off')
 
-plt.subplot(1, 3, 3)
-plt.imshow(adaptive_gaussian, cmap='gray')
-plt.title("Adaptive Gaussian Thresholding")
-plt.axis('off')
-
+# Show the plot
 plt.tight_layout()
 plt.show()
 
-# Otsu's Thresholding
-otsu_threshold, otsu_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-# Display Otsu's Thresholding
-plt.imshow(otsu_image, cmap='gray')
-plt.title("Otsu's Thresholding")
-plt.axis('off')
-plt.show()
-
-print("Optimal Otsu Threshold Value:", otsu_threshold)
 ```
 
 ## Output
 
-## Original Grayscale Image
+## Original Image
 
-<img width="317" height="519" alt="image" src="https://github.com/user-attachments/assets/1be36932-1c6b-4937-94fd-19282fcfd936" />
+<img width="278" height="316" alt="image" src="https://github.com/user-attachments/assets/aca8619b-c18c-4cba-a3e2-2582a871a3ac" />
+
 
 ## Global Thresholding
 
-<img width="337" height="527" alt="image" src="https://github.com/user-attachments/assets/2522d775-7aea-4e51-81c5-3483d67408bb" />
+<img width="247" height="294" alt="image" src="https://github.com/user-attachments/assets/11e4c502-730d-429e-864e-d0336b762882" />
+
 
 ## Adaptive Thresholding
 
-<img width="357" height="521" alt="image" src="https://github.com/user-attachments/assets/105e8fb0-6875-42ed-94bf-f8776a84c494" />
+<img width="317" height="320" alt="image" src="https://github.com/user-attachments/assets/48c80afe-8700-4830-8da6-8a6dbaa95869" />
 
-<img width="356" height="524" alt="image" src="https://github.com/user-attachments/assets/29aa86e6-772b-444e-863b-b86f02054f3d" />
 
 ## Otsu's Thresholding
 
-<img width="389" height="567" alt="image" src="https://github.com/user-attachments/assets/b1d168a2-072f-45f9-85f4-4a842f50538e" />
+<img width="176" height="311" alt="image" src="https://github.com/user-attachments/assets/1cac28d0-08a8-48a0-8022-de0ccd4e017a" />
+
 
 
 ## Result
